@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shopora — маркетплейс с доставкой по всей России. Более 10 000 товаров: электроника, бытовая техника, одежда и многое другое.">
+  <title>Shopora — Маркетплейс</title>
+  <link rel="icon" type="image/png" href="img/Logo.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#" class="header__logo" onclick="navigate('home'); return false;">
+        <img src="img/Logo.png" alt="Shopora" class="header__logo-img">
+        <span class="header__logo-text">Shopora</span>
+      </a>
+
+      <div class="header__search">
+        <input type="text" id="search-input" class="header__search-input" placeholder="Искать на Shopora...">
+        <button class="header__search-btn" onclick="handleSearch()" aria-label="Поиск">🔍</button>
+      </div>
+
+      <div class="header__actions">
+        <div class="header__action-wrap" onclick="navigate('favorites')">
+          <span class="header__action-icon" aria-hidden="true">♥</span>
+          <span>Избранное</span>
+          <span class="fav-badge" id="fav-badge-header">0</span>
+        </div>
+        <div class="header__action-wrap" onclick="navigate('cart')">
+          <span class="header__action-icon" aria-hidden="true">🛒</span>
+          <span>Корзина</span>
+          <span class="cart-badge" id="cart-badge-header">0</span>
+        </div>
+        <div id="header-auth-section"></div>
+        <button class="header__hamburger" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Меню">
+          <span class="header__hamburger-line"></span>
+          <span class="header__hamburger-line"></span>
+          <span class="header__hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <div class="nav-bar__container">
+      <div class="nav-bar__inner" id="main-nav-scroll">
+        <a href="#" class="nav-bar__link" data-page="home" onclick="navigate('home'); return false;">Главная</a>
+        <a href="#" class="nav-bar__link" data-page="catalog" onclick="navigate('catalog'); return false;">Каталог</a>
+        <a href="#" class="nav-bar__link" data-page="pricelist" onclick="navigate('pricelist'); return false;">Прайс-лист</a>
+        <a href="#" class="nav-bar__link" data-page="info" onclick="navigate('info'); return false;">Информация</a>
+        <a href="#" class="nav-bar__link" data-page="services" onclick="navigate('services'); return false;">Сервисы</a>
+        <a href="#" class="nav-bar__link" data-page="about" onclick="navigate('about'); return false;">О фирме</a>
+        <a href="#" class="nav-bar__link" data-page="offices" onclick="navigate('offices'); return false;">Офисы</a>
+        <a href="#" class="nav-bar__link" data-page="partners" onclick="navigate('partners'); return false;">Партнёры</a>
+        <a href="#" class="nav-bar__link" data-page="customers" onclick="navigate('customers'); return false;">Заказчики фирм</a>
+        <a href="#" class="nav-bar__link" data-page="routes" onclick="navigate('routes'); return false;">Схема проезда</a>
+        <a href="#" class="nav-bar__link" data-page="vacancies" onclick="navigate('vacancies'); return false;">Вакансии</a>
+        <a href="#" class="nav-bar__link" data-page="needs" onclick="navigate('needs'); return false;">Потребности</a>
+        <a href="#" class="nav-bar__link" data-page="currency" onclick="navigate('currency'); return false;">Курсы валют</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay" onclick="toggleMobileNav()"></div>
+  <aside class="mobile-nav-drawer" id="mobile-nav-drawer">
+    <div class="mobile-nav-drawer__header">
+      <span class="mobile-nav-drawer__title">Меню</span>
+      <button class="mobile-nav-drawer__close" onclick="toggleMobileNav()" aria-label="Закрыть">✕</button>
+    </div>
+    <nav class="mobile-nav-drawer__body" id="mobile-nav-links"></nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main id="app"></main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <section>
+        <h3 class="footer__title">Контакты</h3>
+        <p class="footer__text">📞 +7 (800) 777-SHOP</p>
+        <p class="footer__text">📧 hello@shopora.store</p>
+        <p class="footer__text">🕐 Пн-Пт: 9:00 — 18:00</p>
+        <p class="footer__text">🕐 Сб: 10:00 — 15:00</p>
+      </section>
+      <section>
+        <h3 class="footer__title">Юридический адрес</h3>
+        <p class="footer__text">123456, г. Москва, ул. Примерная, д. 1</p>
+        <h3 class="footer__title" style="margin-top:16px">Почтовый адрес</h3>
+        <p class="footer__text">123456, г. Москва, ул. Примерная, д. 1, оф. 100</p>
+      </section>
+      <section>
+        <h3 class="footer__title">Банковские реквизиты</h3>
+        <p class="footer__text">ИНН: 7712345678</p>
+        <p class="footer__text">КПП: 770101001</p>
+        <p class="footer__text">ОГРН: 1267700001234</p>
+        <p class="footer__text">Р/с: 40702810100000056789</p>
+        <p class="footer__text">Банк: Тинькофф Банк</p>
+        <p class="footer__text">БИК: 044525225</p>
+      </section>
+      <section>
+        <h3 class="footer__title">Информация</h3>
+        <p class="footer__text"><a href="#" onclick="navigate('about'); return false;">О фирме</a></p>
+        <p class="footer__text"><a href="#" onclick="navigate('offices'); return false;">Филиалы</a></p>
+        <p class="footer__text"><a href="#" onclick="navigate('partners'); return false;">Партнёры</a></p>
+        <p class="footer__text"><a href="#" onclick="navigate('customers'); return false;">Заказчики фирм</a></p>
+        <p class="footer__text"><a href="#" onclick="navigate('routes'); return false;">Схема проезда</a></p>
+        <p class="footer__text"><a href="#" onclick="navigate('vacancies'); return false;">Вакансии</a></p>
+      </section>
+    </div>
+    <div class="footer__bottom">
+      © 2026 Shopora. Все права защищены.
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
